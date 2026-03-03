@@ -12,7 +12,7 @@ const getAllLogs = async (req, res) => {
     }
 };
 
-// 2. Ta fonction existante pour créer un log
+// fonction pour créer ou enregistrer un log 
 const createLog = async (userId, action,  details) => {
     try {
         await pool.query(
