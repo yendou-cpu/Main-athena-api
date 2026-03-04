@@ -6,6 +6,7 @@ require('dotenv').config(); // Charge les variables d'environnement à partir du
 
 const produitRoutes = require('./route/produit.routes.js'); // Importe les routes pour les produits
 const utilisateurRoutes = require('./route/utilisateur.router.js'); // Importe les routes pour les utilisateurs
+const venteRoutes = require('./route/vente.router.js'); // Importe les routes pour les ventes
 
 const logsRoutes = require('./route/logs.router.js'); // Importe les routes pour les logs
 
@@ -18,6 +19,7 @@ app.use(express.json()); // Middleware pour parser les requêtes JSON
 app.use('/api/produits', produitRoutes); // Utilise les routes pour les produits sous le chemin /api/produits
 app.use('/api/utilisateurs', utilisateurRoutes); // Utilise les routes pour les utilisateurs sous le chemin /api/utilisateurs
 app.use('/api/logs', logsRoutes); // Utilise les routes pour les logs sous le chemin /api/logs
+app.use('/api/ventes', venteRoutes); // Utilise les routes pour les ventes sous le chemin /api/ventes
 
 const PORT = process.env.PORT || 5000; // Définit le port à partir des variables d'environnement ou utilise 5000 par défaut
 
