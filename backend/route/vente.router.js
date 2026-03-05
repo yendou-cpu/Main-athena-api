@@ -1,15 +1,19 @@
 const express = require('express');
 
 const router = express.Router();
+const venteController = require('../controllers/vente.controller');
+const { verifyToken, isAdmin } = require('../middleware/auth.middleware');
 
-const venteController =require ('../controller/vente.controller');
+// Route création vente
+router.post('/enregistre', verifyToken, venteController.createVente); // <-- espace supprimé
 
-router.post('/enregistre', venteController.createVente);// router pour enregistrer une vente
+// Route GET toutes ventes (admin)
+router.get('/', verifyToken, isAdmin, venteController.getAllVentes);
 
-router.get('/liste', venteController.listVentes);// router pour lister les ventes
+// Route GET détails vente
+router.get('/:id', verifyToken, venteController.getVenteDetails);
 
-router.put('/modifier/:id', venteController.updateVente);// router pour modifier une vente
-
-router.delete('/supprimer/:id', venteController.deleteVente);// router pour supprimer une vente
+// Route DELETE vente (admin)
+router.delete('/:id', verifyToken, isAdmin, venteController.deleteVente);
 
 module.exports = router;
