@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const venteController = require('../controllers/vente.controller');
+const venteController = require('../controllers/vente.controller.js');
 const { verifyToken, isAdmin } = require('../middleware/auth.middleware');
 
 // Route création vente
