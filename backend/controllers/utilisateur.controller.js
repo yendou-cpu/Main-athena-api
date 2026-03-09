@@ -21,8 +21,13 @@ exports.createUtilisateur = async (req, res) => {
         res.status(201).json(result.rows[0]);
 
     } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    console.error("ERREUR COMPLETE:", JSON.stringify(error, null, 2));
+    res.status(500).json({ 
+        message: error.message || "Erreur inconnue",
+        detail: error.detail || "",   // Message PostgreSQL détaillé
+        code: error.code || ""        // Code erreur PostgreSQL
+    });
+}
 };
 
 
