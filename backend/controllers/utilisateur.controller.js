@@ -11,12 +11,12 @@ exports.createUtilisateur = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const result = await pool.query(
-            `INSERT INTO utilisateur 
-            (nom, prenoms, nom_boutique, numerotel, email, password, role) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7)
-            RETURNING userid, nom, prenoms, email, role`,
-            [nom, prenoms, nom_boutique, numerotel, email, hashedPassword, role || 'caissier']
-        );
+    `INSERT INTO utilisateur 
+    (nom, prenoms, nom_boutique, numerotel, email, password, role, actif) 
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+    RETURNING userid, nom, prenoms, email, role`,
+    [nom, prenoms, nom_boutique, numerotel, email, hashedPassword, role || 'caissier', true]
+);
 
         res.status(201).json(result.rows[0]);
 
