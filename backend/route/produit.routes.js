@@ -12,6 +12,8 @@ router.put('/:id', produitController.updateProduit); // Route pour mettre à jou
 
 router.delete('/:id', produitController.deleteProduit); // Route pour supprimer un produit
 
+router.get('/top-produits', produitController.getTopProduits);
+
 
 
 module.exports =router; // Exporte le routeur pour l'utiliser dans d'autres parties de l'application

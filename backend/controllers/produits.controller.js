@@ -29,6 +29,34 @@ exports.getAllProduits = async (req, res) => {
 
     }
 
+    // Fonction pour obtenir les produits les plus vendus
+exports.getTopProduits = async (req, res) => {
+
+    try {
+
+        const result = await pool.query(`
+            SELECT 
+                p.id,
+                p.nom,
+                COALESCE(SUM(dv.quantite),0) AS ventes
+            FROM produits p
+            LEFT JOIN details_vente dv 
+                ON p.id = dv.produit_id
+            GROUP BY p.id, p.nom
+            ORDER BY ventes DESC
+            LIMIT 5
+        `);
+
+        res.json(result.rows);
+
+    } catch (err) {
+
+        console.error(err);
+        res.status(500).json({ error: "Erreur serveur" });
+
+    }
+
+};
 // Fonction pour mettre à jour un produit existant
 exports.updateProduit = async (req, res) => {
     const { id } = req.params; // Récupère l'ID du produit à partir des paramètres de la route
