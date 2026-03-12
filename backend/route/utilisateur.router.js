@@ -14,13 +14,14 @@ router.get('/profile', verifyToken, utilisateurController.getProfile); // Profil
 
 // Routes administrateur (JWT + rôle admin)
 router.get('/', verifyToken, isAdmin, utilisateurController.getAllUtilisateurs); // Tous les utilisateurs
+router.post('/caissier', verifyToken, isAdmin, utilisateurController.createCaissier); // Créer un caissier (admin)
 
-router.put('/:id', verifyToken, utilisateurController.updateUtilisateur); // Mise à jour d'un utilisateur
+router.put('/:userid', verifyToken, utilisateurController.updateUtilisateur); // Mise à jour d'un utilisateur
 
-router.delete('/:id', verifyToken, isAdmin, utilisateurController.deleteUtilisateur); // Suppression d'un utilisateur
+router.delete('/:userid', verifyToken, isAdmin, utilisateurController.deleteUtilisateur); // Suppression d'un utilisateur
 
-router.post('/desactiver/:id', verifyToken, isAdmin, utilisateurController.desactiverUtilisateur); // Désactivation compte
+router.post('/desactiver/:userid', verifyToken, isAdmin, utilisateurController.desactiverUtilisateur); // Désactivation compte
 
-router.post('/activer/:id', verifyToken, isAdmin, utilisateurController.activerUtilisateur); // Activation compte
+router.post('/activer/:userid', verifyToken, isAdmin, utilisateurController.activerUtilisateur); // Activation compte
 
 module.exports = router; // Exporte le routeur
