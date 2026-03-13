@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const router  = express.Router();
 
-const logsController = require('../controllers/logs.controller.js');// Importe le contrôleur pour les logs
+const logsController           = require('../controllers/logs.controller.js');
+const { verifyToken, isAdmin } = require('../middleware/auth.middleware');
 
-// Définit les routes pour les logs
-router.get('/', logsController.getAllLogs); // Route pour obtenir tous les logs
+router.get('/', verifyToken, isAdmin, logsController.getAllLogs);
 
-module.exports = router; // Exporte le routeur pour l'utiliser dans d'autres parties de l'application
+module.exports = router;
