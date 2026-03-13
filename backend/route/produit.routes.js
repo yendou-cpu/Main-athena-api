@@ -1,19 +1,18 @@
-const express = require('express');// Importe le framework Express
-const router = express.Router(); // Crée un routeur Express
+const express = require('express');
+const router  = express.Router();
 
-const produitController = require('../controllers/produits.controller.js'); // Importe le contrôleur pour les produits
+const produitController       = require('../controllers/produits.controller.js');
+const { verifyToken, isAdmin } = require('../middleware/auth.middleware');
 
-// Définit les routes pour les produits
-router.post('/EnregistreProduit', produitController.createProduit); // Route pour créer un nouveau produit
+//  top-produits DOIT être avant /:id pour ne pas être capturé comme un id
+router.get('/top-produits', verifyToken, produitController.getTopProduits);
 
-router.get('/', produitController.getAllProduits); // Route pour obtenir tous les produits
+// Lecture — accessible au propriétaire ET aux caissiers (verifyToken suffit)
+router.get('/',    verifyToken, produitController.getAllProduits);
 
-router.put('/:id', produitController.updateProduit); // Route pour mettre à jour un produit existant
+// Écriture — réservée au propriétaire/admin
+router.post('/EnregistreProduit', verifyToken, isAdmin, produitController.createProduit);
+router.put('/:id',               verifyToken, isAdmin, produitController.updateProduit);
+router.delete('/:id',            verifyToken, isAdmin, produitController.deleteProduit);
 
-router.delete('/:id', produitController.deleteProduit); // Route pour supprimer un produit
-
-router.get('/top-produits', produitController.getTopProduits);
-
-
-
-module.exports =router; // Exporte le routeur pour l'utiliser dans d'autres parties de l'application
+module.exports = router;
