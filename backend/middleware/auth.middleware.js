@@ -20,9 +20,11 @@ exports.verifyToken = (req, res, next) => {
 };
 
 // Middleware pour vérifier si l'utilisateur est admin
+// Accepte les rôles : admin, proprietaire, administrateur
+const ROLES_ADMIN = ["admin", "proprietaire", "administrateur"];
 exports.isAdmin = (req, res, next) => {
-    if (req.user.role !== "admin") {
-        return res.status(403).json({ message: "Accès refusé (Admin seulement)" });// Vérifie si le rôle de l'utilisateur est "admin"
+    if (!ROLES_ADMIN.includes((req.user.role || "").toLowerCase())) {
+        return res.status(403).json({ message: "Accès refusé (Admin seulement)" });
     }
     next();
 };
