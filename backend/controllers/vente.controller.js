@@ -77,14 +77,23 @@
         }
     };
 
-    // ─── GET ALL VENTES (filtrées par boutique) ──────────────────────────────────
+    // ─── GET ALL VENTES (filtrées par boutique + nom du caissier) ────────────────
     exports.getAllVentes = async (req, res) => {
         const boutique_id = getBoutiqueId(req);
         try {
-            const result = await pool.query(
-                "SELECT * FROM ventes WHERE boutique_id=$1 ORDER BY date_vente DESC",
-                [boutique_id]
-            );
+            const result = await pool.query(`
+                SELECT
+                    v.id,
+                    v.date_vente,
+                    v.total,
+                    v.user_id,
+                    v.boutique_id,
+                    COALESCE(u.prenoms || ' ' || u.nom, u.nom, 'Inconnu') AS caissier_nom
+                FROM ventes v
+                LEFT JOIN utilisateur u ON v.user_id = u.userid
+                WHERE v.boutique_id = $1
+                ORDER BY v.date_vente DESC
+            `, [boutique_id]);
             res.json(result.rows);
         } catch (error) {
             res.status(500).json({ message: error.message });
