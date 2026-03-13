@@ -1,4 +1,4 @@
-    const pool = require('../config/db');
+const pool = require('../config/db');
     const bcrypt = require('bcrypt');
     const jwt = require('jsonwebtoken');// Contrôleur pour les utilisateurs
 
@@ -21,7 +21,7 @@
             const newUser = result.rows[0];
 
             // L'admin est sa propre boutique → boutique_id = son propre userid
-            if ((role || 'admin').toLowerCase() === 'admin') {
+            if (['admin','proprietaire','administrateur'].includes((role || 'admin').toLowerCase())) {
                 await pool.query(
                     'UPDATE utilisateur SET boutique_id = $1 WHERE userid = $1',
                     [newUser.userid]
